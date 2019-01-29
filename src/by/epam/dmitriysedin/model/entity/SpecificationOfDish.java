@@ -1,6 +1,6 @@
 package by.epam.dmitriysedin.model.entity;
 
-public class SpecificationOfDish {
+public class SpecificationOfDish extends DishOfAssortment{
 
 	private String dishDescription;
     private String dishPortion;

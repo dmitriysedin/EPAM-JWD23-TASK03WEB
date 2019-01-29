@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.epam.dmitriysedin.model.entity.Menu;
 
-
 @WebServlet("/ServletForParsers")
 public class ServletForParsers extends HttpServlet {
 	
@@ -37,23 +36,19 @@ public class ServletForParsers extends HttpServlet {
 		
 		if(request.getParameter("sax") != null) {		
 			menuList = new SaxMenuParser().getMenuList(fileName);
-			System.out.println("sax");
 		}
 		
 		if(request.getParameter("stax") != null) {		
 			menuList = new StaxMenuParser().getMenuList(fileName);
-			System.out.println("stax");
 		}
 		
 		if(request.getParameter("dom") != null) {		
 			menuList = new DomMenuParser().getMenuList(fileName);
-			System.out.println("dom");
 		}
 		
 		request.setAttribute("menus", menuList);
 		request.getRequestDispatcher("/WEB-INF/jsp/MenuTable.jsp").forward(request, response);
 		
-
 	}
 
 }

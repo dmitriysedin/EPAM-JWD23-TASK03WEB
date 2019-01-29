@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -18,7 +20,9 @@ import by.epam.dmitriysedin.model.entity.Menu;
 import by.epam.dmitriysedin.model.entity.SpecificationOfDish;
 
 public class SaxMenuParser extends DefaultHandler {
-
+	
+	private static final Logger logger = LogManager.getLogger(SaxMenuParser.class);
+	
 	private List<Menu> menuList = new ArrayList<>();
     private Menu menu;
     private AssortmentOfMenu assortmentOfMenu;
@@ -45,7 +49,7 @@ public class SaxMenuParser extends DefaultHandler {
         } catch(SAXException e){
         	e.printStackTrace();//throw new MyException
         }
-        
+        logger.trace("SaxMenuParser().getMenuList() is done");
         return menuList;
     }
 

@@ -3,7 +3,7 @@ package by.epam.dmitriysedin.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AssortmentOfMenu {
+public class AssortmentOfMenu extends Menu{
 
 	private String assortmentID;
     private String assortmentName;
