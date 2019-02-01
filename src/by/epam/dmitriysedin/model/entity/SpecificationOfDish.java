@@ -1,16 +1,13 @@
 package by.epam.dmitriysedin.model.entity;
 
-public class SpecificationOfDish extends DishOfAssortment{
+import java.io.Serializable;
+import java.util.Objects;
+
+public class SpecificationOfDish implements Serializable{
 
 	private String dishDescription;
     private String dishPortion;
     private String dishPrice;
-
-    public SpecificationOfDish(String dishDescription, String dishPortion, String dishPrice) {
-        this.dishDescription = dishDescription;
-        this.dishPortion = dishPortion;
-        this.dishPrice = dishPrice;
-    }
 
     public SpecificationOfDish() {
     }
@@ -40,6 +37,27 @@ public class SpecificationOfDish extends DishOfAssortment{
     }
 
     @Override
+	public int hashCode() {
+		return Objects.hash(dishDescription, dishPortion, dishPrice);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof SpecificationOfDish)) {
+			return false;
+		}
+		SpecificationOfDish other = (SpecificationOfDish) obj;
+		return Objects.equals(dishDescription, other.dishDescription) && Objects.equals(dishPortion, other.dishPortion)
+				&& Objects.equals(dishPrice, other.dishPrice);
+	}
+
+	@Override
     public String toString() {
         return "SpecificationOfDish{" +
                 "dishDescription='" + dishDescription + '\'' +

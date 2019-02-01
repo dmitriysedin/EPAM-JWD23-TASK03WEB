@@ -1,6 +1,5 @@
-package by.epam.dmitriysedin.model.logic;
+package by.epam.dmitriysedin.model.dao.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,23 +13,31 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import by.epam.dmitriysedin.model.dao.XMLParser;
 import by.epam.dmitriysedin.model.entity.AssortmentOfMenu;
 import by.epam.dmitriysedin.model.entity.DishOfAssortment;
 import by.epam.dmitriysedin.model.entity.Menu;
 import by.epam.dmitriysedin.model.entity.SpecificationOfDish;
 
-public class SaxMenuParser extends DefaultHandler {
+public final class SaxXMLParser extends DefaultHandler implements XMLParser {
 	
-	private static final Logger logger = LogManager.getLogger(SaxMenuParser.class);
+	private final static XMLParser instance = new SaxXMLParser();
 	
-	private List<Menu> menuList = new ArrayList<>();
+	public static XMLParser getInstance(){
+		
+		return instance;
+	}
+	
+	private static final Logger logger = LogManager.getLogger(SaxXMLParser.class);
+	
+	private List<Object> menuList = new ArrayList<>();
     private Menu menu;
     private AssortmentOfMenu assortmentOfMenu;
     private DishOfAssortment dishOfAssortment;
     private SpecificationOfDish specificationOfDish;
     private StringBuilder text;
 
-    public List<Menu> getMenuList(String faileName) throws IOException {
+    public List<Object> parse(String faileName) throws Exception {
         
         try {
         XMLReader reader = XMLReaderFactory.createXMLReader();
@@ -46,6 +53,7 @@ public class SaxMenuParser extends DefaultHandler {
         reader.setFeature("http://xml.org/sax/features/string-interning", true);
 
         reader.setFeature("http://apache.org/xml/features/validation/schema", false);
+        
         } catch(SAXException e){
         	e.printStackTrace();//throw new MyException
         }
@@ -55,18 +63,17 @@ public class SaxMenuParser extends DefaultHandler {
 
     @Override
     public void startDocument() throws SAXException {
-        System.out.println("Start");
+        
     }
 
     @Override
     public void endDocument() throws SAXException {
-        System.out.println("End");
+        
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        System.out.println("Start element -->" + "uri: " + uri + ", localName:" + localName + ", qName:" + qName);
-
+        
         text = new StringBuilder();
         switch (qName){
             case "menu":
@@ -108,6 +115,9 @@ public class SaxMenuParser extends DefaultHandler {
                 break;
             case "assortment-annotation":
                 assortmentOfMenu.setAssortmentAnnotation(text.toString());
+                break;
+            case "dish-photo":
+                dishOfAssortment.setDishPhoto(text.toString());
                 break;
             case "dish-name":
                 dishOfAssortment.setDishName(text.toString());

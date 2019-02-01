@@ -1,7 +1,8 @@
-package by.epam.dmitriysedin.model.logic;
+package by.epam.dmitriysedin.model.dao.impl;
 
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
+import by.epam.dmitriysedin.model.dao.XMLParser;
 import by.epam.dmitriysedin.model.entity.AssortmentOfMenu;
 import by.epam.dmitriysedin.model.entity.DishOfAssortment;
 import by.epam.dmitriysedin.model.entity.Menu;
@@ -16,9 +17,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DomMenuParser {
+public final class DomXMLParser implements XMLParser {
+	
+private final static XMLParser instance = new DomXMLParser();
+	
+	public static XMLParser getInstance(){
+		
+		return instance;
+	}
 
-	public List<Menu> getMenuList(String fileName) throws IOException {
+	public List<Object> parse(String fileName) throws IOException {
 
         DOMParser parser = new DOMParser();
         
@@ -32,7 +40,7 @@ public class DomMenuParser {
 
         Element root = document.getDocumentElement();
 
-        List<Menu> menuList = new ArrayList<>();
+        List<Object> menuList = new ArrayList<>();
 
         NodeList menuNode = root.getElementsByTagName("menu");
 
@@ -61,11 +69,11 @@ public class DomMenuParser {
     }
 	
 
-    private static Element getSingleChild(Element element, String childName) {
+    private Element getSingleChild(Element element, String childName) {
         return (Element) element.getElementsByTagName(childName).item(0);
     }
 
-    private static List<AssortmentOfMenu> getAssortmentOfMenuList(NodeList list) {
+    private List<AssortmentOfMenu> getAssortmentOfMenuList(NodeList list) {
 
         AssortmentOfMenu assortmentOfMenu = null;
         List<AssortmentOfMenu> assortmentOfMenuList = new ArrayList<>();
@@ -92,7 +100,7 @@ public class DomMenuParser {
         return assortmentOfMenuList;
     }
 
-    private static List<DishOfAssortment> getDishOfAssortmentList(NodeList list) {
+    private List<DishOfAssortment> getDishOfAssortmentList(NodeList list) {
 
         DishOfAssortment dishOfAssortment = null;
         List<DishOfAssortment> dishOfAssortmentList = new ArrayList<>();
@@ -106,6 +114,8 @@ public class DomMenuParser {
             Element dishElement = (Element) list.item(i);
 
             dishOfAssortment.setDishID(dishElement.getAttribute("id"));
+            dishOfAssortment.setDishName(getSingleChild(dishElement,
+                    "dish-photo").getTextContent().trim());
             dishOfAssortment.setDishName(getSingleChild(dishElement,
                     "dish-name").getTextContent().trim());
             if ((temp = getSingleChild(dishElement, "dish-annotation")) != null) {
@@ -122,7 +132,7 @@ public class DomMenuParser {
         return dishOfAssortmentList;
     }
 
-    private static List<SpecificationOfDish> getSpecificationOfDishList(NodeList list) {
+    private List<SpecificationOfDish> getSpecificationOfDishList(NodeList list) {
 
         SpecificationOfDish specificationOfDish = null;
 

@@ -1,22 +1,16 @@
 package by.epam.dmitriysedin.model.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class AssortmentOfMenu extends Menu{
+public class AssortmentOfMenu implements Serializable{
 
 	private String assortmentID;
     private String assortmentName;
     private String assortmentAnnotation;
     private List<DishOfAssortment> dishes = new ArrayList<>();
-
-    public AssortmentOfMenu(String assortmentID, String assortmentName, String assortmentAnnotation,
-                            List<DishOfAssortment> dishes) {
-        this.assortmentID = assortmentID;
-        this.assortmentName = assortmentName;
-        this.assortmentAnnotation = assortmentAnnotation;
-        this.dishes = dishes;
-    }
 
     public AssortmentOfMenu() {
     }
@@ -54,6 +48,28 @@ public class AssortmentOfMenu extends Menu{
     }
 
     @Override
+	public int hashCode() {
+		return Objects.hash(assortmentAnnotation, assortmentID, assortmentName, dishes);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof AssortmentOfMenu)) {
+			return false;
+		}
+		AssortmentOfMenu other = (AssortmentOfMenu) obj;
+		return Objects.equals(assortmentAnnotation, other.assortmentAnnotation)
+				&& Objects.equals(assortmentID, other.assortmentID)
+				&& Objects.equals(assortmentName, other.assortmentName) && Objects.equals(dishes, other.dishes);
+	}
+
+	@Override
     public String toString() {
         return "AssortmentOfMenu{" +
                 "assortmentID='" + assortmentID + '\'' +

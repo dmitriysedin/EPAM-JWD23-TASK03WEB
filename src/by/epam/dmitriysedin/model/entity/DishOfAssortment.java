@@ -1,24 +1,18 @@
 package by.epam.dmitriysedin.model.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class DishOfAssortment extends AssortmentOfMenu{
+public class DishOfAssortment implements Serializable{
 
 	private String dishID;
+	private String dishPhoto;
     private String dishName;
     private String dishAnnotation;
     private String dishExtraDescription;
     private List<SpecificationOfDish> specificationOfDishes = new ArrayList<>();
-
-    public DishOfAssortment(String dishID, String dishName, String dishAnnotation, String dishExtraDescription,
-                            List<SpecificationOfDish> specificationOfDishes) {
-        this.dishID = dishID;
-        this.dishName = dishName;
-        this.dishAnnotation = dishAnnotation;
-        this.dishExtraDescription = dishExtraDescription;
-        this.specificationOfDishes = specificationOfDishes;
-    }
 
     public DishOfAssortment() {
     }
@@ -31,7 +25,15 @@ public class DishOfAssortment extends AssortmentOfMenu{
         this.dishID = dishID;
     }
 
-    public String getDishName() {
+    public String getDishPhoto() {
+		return dishPhoto;
+	}
+
+	public void setDishPhoto(String dishPhoto) {
+		this.dishPhoto = dishPhoto;
+	}
+
+	public String getDishName() {
         return dishName;
     }
 
@@ -63,14 +65,36 @@ public class DishOfAssortment extends AssortmentOfMenu{
         this.specificationOfDishes = specificationOfDishes;
     }
 
-    @Override
-    public String toString() {
-        return "DishOfAssortment{" +
-                "dishID='" + dishID + '\'' +
-                ", dishName='" + dishName + '\'' +
-                ", dishAnnotation='" + dishAnnotation + '\'' +
-                ", dishExtraDescription='" + dishExtraDescription + '\'' + '\n' +
-                ", specificationOfDishes=" + specificationOfDishes +
-                '}' + '\n';
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(dishAnnotation, dishExtraDescription, dishID, dishName, dishPhoto, specificationOfDishes);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof DishOfAssortment)) {
+			return false;
+		}
+		DishOfAssortment other = (DishOfAssortment) obj;
+		return Objects.equals(dishAnnotation, other.dishAnnotation)
+				&& Objects.equals(dishExtraDescription, other.dishExtraDescription)
+				&& Objects.equals(dishID, other.dishID) && Objects.equals(dishName, other.dishName)
+				&& Objects.equals(dishPhoto, other.dishPhoto)
+				&& Objects.equals(specificationOfDishes, other.specificationOfDishes);
+	}
+
+	@Override
+	public String toString() {
+		return "DishOfAssortment [dishID=" + dishID + ", dishPhoto=" + dishPhoto + ", dishName=" + dishName
+				+ ", dishAnnotation=" + dishAnnotation + ", dishExtraDescription=" + dishExtraDescription
+				+ ", specificationOfDishes=" + specificationOfDishes + '\n' + "]";
+	}
+
+    
 }

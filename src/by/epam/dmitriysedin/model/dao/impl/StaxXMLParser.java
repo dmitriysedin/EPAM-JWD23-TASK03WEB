@@ -1,4 +1,4 @@
-package by.epam.dmitriysedin.model.logic;
+package by.epam.dmitriysedin.model.dao.impl;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,17 +11,25 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import by.epam.dmitriysedin.model.dao.XMLParser;
 import by.epam.dmitriysedin.model.entity.AssortmentOfMenu;
 import by.epam.dmitriysedin.model.entity.DishOfAssortment;
 import by.epam.dmitriysedin.model.entity.Menu;
 import by.epam.dmitriysedin.model.entity.SpecificationOfDish;
 
-public class StaxMenuParser {
+public final class StaxXMLParser implements XMLParser {
+	
+	private final static XMLParser instance = new StaxXMLParser();
+	
+	public static XMLParser getInstance(){
+		
+		return instance;
+	}
 
-	public List<Menu> getMenuList(String fileName) throws FileNotFoundException {
+	public List<Object> parse(String fileName) throws FileNotFoundException {
 
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        List<Menu> menuList = new ArrayList<>();
+        List<Object> menuList = new ArrayList<>();
 
         try {
             InputStream inputStream = new FileInputStream(fileName);
@@ -30,12 +38,13 @@ public class StaxMenuParser {
             } catch (XMLStreamException e){
             e.printStackTrace();//throw new MyException
         }
+        	System.out.println("dom");
             return menuList;
     }
 
-    private static List<Menu> process(XMLStreamReader reader) throws XMLStreamException{
+    private List<Object> process(XMLStreamReader reader) throws XMLStreamException{
 
-        List<Menu> menus = new ArrayList<>();
+        List<Object> menus = new ArrayList<>();
         Menu menu = null;
         AssortmentOfMenu assortmentOfMenu = null;
         DishOfAssortment dishOfAssortment = null;
@@ -86,6 +95,9 @@ public class StaxMenuParser {
                             break;
                         case "assortment-annotation":
                             assortmentOfMenu.setAssortmentAnnotation(text);
+                            break;
+                        case "dish-photo":
+                            dishOfAssortment.setDishPhoto(text.toString());
                             break;
                         case "dish-name":
                             dishOfAssortment.setDishName(text);
