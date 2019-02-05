@@ -31,7 +31,8 @@ public class XMLParserFactory {
 			break;
 
 		default:
-			// throw new XMLParserException("No such Parser");
+			throw new XMLParserException("No such Parser");
+			
 		}
 
 		return parser;
