@@ -9,10 +9,13 @@
 <title>Menu</title>
 </head>
 <body>
-	<caption>Меню ресторана Жемчужинка</caption>
 	<br>
 	<c:out value="Прочитано ${parser}"></c:out>
 	<table cellspacing="2" border="1" cellpadding="5" bordercolor="gray">
+		<caption>
+			<h1>Меню ресторана Жемчужинка</h1>
+		</caption>
+		<br>
 		<tr>
 			<th>Меню</th>
 			<th>Ассортимент</th>
@@ -22,11 +25,11 @@
 			<th>Порция</th>
 			<th>Цена</th>
 		</tr>
-		<c:set var="count" value="${0}"></c:set>
+		<c:set var="count" scope="request" value="${0}"></c:set>
 		<c:forEach items="${menus}" var="menu">
 			<c:forEach items="${menu.assortments}" var="assortment">
 				<c:forEach items="${assortment.dishes}" var="dish">
-					<c:if test="${count >= firstRow && count < lastRow}">
+					<c:if test="${count >= firstrow && count < lastrow}">
 						<tr>
 							<td><c:out value="${menu.menuName}"></c:out></td>
 							<td><c:out value="${assortment.assortmentName}"></c:out></td>
@@ -56,14 +59,15 @@
 		</c:forEach>
 	</table>
 	<form action="ServletForParsers" method="post">
+		<input type="hidden" name="fileName" value="${fileName}"> 
 		<input type="hidden" name="parser" value="${parser}"> 
-		<input type="hidden" name="lastrow" value="${lastRow}"> 
-		<input type="hidden" name="firstrow" value="${firstRow}">
-		<c:if test="${count > lastRow}">
-			<input type="submit" name="page" value="next">
+		<input type="hidden" name="lastrow" value="${lastrow}"> 
+		<input type="hidden" name="firstrow" value="${firstrow}">
+		<c:if test="${count > lastrow}">
+			<input type="submit" name="command" value="NEXT">
 		</c:if>
-		<c:if test="${firstRow > 0}">
-			<input type="submit" name="page" value="previous">
+		<c:if test="${firstrow > 0}">
+			<input type="submit" name="command" value="PREVIOUS">
 		</c:if>
 	</form>
 </body>

@@ -1,31 +1,32 @@
-package by.epam.dmitriysedin.model.entity;
+package by.epam.dmitriysedin.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DishOfAssortment implements Serializable{
+public class DishOfAssortment implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private String dishID;
 	private String dishPhoto;
-    private String dishName;
-    private String dishAnnotation;
-    private String dishExtraDescription;
-    private List<SpecificationOfDish> specificationOfDishes = new ArrayList<>();
+	private String dishName;
+	private String dishAnnotation;
+	private String dishExtraDescription;
+	private List<SpecificationOfDish> specificationOfDishes = new ArrayList<>();
 
-    public DishOfAssortment() {
-    }
+	public DishOfAssortment() {
+	}
 
-    public String getDishID() {
-        return dishID;
-    }
+	public String getDishID() {
+		return dishID;
+	}
 
-    public void setDishID(String dishID) {
-        this.dishID = dishID;
-    }
+	public void setDishID(String dishID) {
+		this.dishID = dishID;
+	}
 
-    public String getDishPhoto() {
+	public String getDishPhoto() {
 		return dishPhoto;
 	}
 
@@ -34,36 +35,36 @@ public class DishOfAssortment implements Serializable{
 	}
 
 	public String getDishName() {
-        return dishName;
-    }
+		return dishName;
+	}
 
-    public void setDishName(String dishName) {
-        this.dishName = dishName;
-    }
+	public void setDishName(String dishName) {
+		this.dishName = dishName;
+	}
 
-    public String getDishAnnotation() {
-        return dishAnnotation;
-    }
+	public String getDishAnnotation() {
+		return dishAnnotation;
+	}
 
-    public void setDishAnnotation(String dishAnnotation) {
-        this.dishAnnotation = dishAnnotation;
-    }
+	public void setDishAnnotation(String dishAnnotation) {
+		this.dishAnnotation = dishAnnotation;
+	}
 
-    public String getDishExtraDescription() {
-        return dishExtraDescription;
-    }
+	public String getDishExtraDescription() {
+		return dishExtraDescription;
+	}
 
-    public void setDishExtraDescription(String dishExtraDescription) {
-        this.dishExtraDescription = dishExtraDescription;
-    }
+	public void setDishExtraDescription(String dishExtraDescription) {
+		this.dishExtraDescription = dishExtraDescription;
+	}
 
-    public List<SpecificationOfDish> getSpecificationOfDishes() {
-        return specificationOfDishes;
-    }
+	public List<SpecificationOfDish> getSpecificationOfDishes() {
+		return specificationOfDishes;
+	}
 
-    public void setSpecificationOfDishes(List<SpecificationOfDish> specificationOfDishes) {
-        this.specificationOfDishes = specificationOfDishes;
-    }
+	public void setSpecificationOfDishes(List<SpecificationOfDish> specificationOfDishes) {
+		this.specificationOfDishes = specificationOfDishes;
+	}
 
 	@Override
 	public int hashCode() {
@@ -96,5 +97,4 @@ public class DishOfAssortment implements Serializable{
 				+ ", specificationOfDishes=" + specificationOfDishes + '\n' + "]";
 	}
 
-    
 }

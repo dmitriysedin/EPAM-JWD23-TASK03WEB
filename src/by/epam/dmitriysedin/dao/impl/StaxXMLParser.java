@@ -1,0 +1,147 @@
+package by.epam.dmitriysedin.dao.impl;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
+import by.epam.dmitriysedin.dao.XMLParser;
+import by.epam.dmitriysedin.dao.XMLParserException;
+import by.epam.dmitriysedin.entity.AssortmentOfMenu;
+import by.epam.dmitriysedin.entity.DishOfAssortment;
+import by.epam.dmitriysedin.entity.Menu;
+import by.epam.dmitriysedin.entity.SpecificationOfDish;
+
+public final class StaxXMLParser implements XMLParser {
+
+	private final static XMLParser instance = new StaxXMLParser();
+
+	public static XMLParser getInstance() {
+
+		return instance;
+	}
+
+	public List<Object> parse(String fileName) throws XMLParserException {
+
+		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+		List<Object> menuList = new ArrayList<>();
+
+		try {
+			InputStream inputStream = new FileInputStream(fileName);
+			XMLStreamReader streamReader = inputFactory.createXMLStreamReader(inputStream);
+			menuList = process(streamReader);
+		} catch (XMLStreamException | FileNotFoundException e) {
+			throw new XMLParserException(e);
+		}
+		return menuList;
+	}
+
+	private List<Object> process(XMLStreamReader reader) throws XMLStreamException {
+
+		List<Object> menus = new ArrayList<>();
+		Menu menu = null;
+		AssortmentOfMenu assortmentOfMenu = null;
+		DishOfAssortment dishOfAssortment = null;
+		SpecificationOfDish specificationOfDish = null;
+		String elementName = null;
+
+		while (reader.hasNext()) {
+
+			int type = reader.next();
+
+			switch (type) {
+			case XMLStreamConstants.START_ELEMENT:
+				elementName = reader.getLocalName();
+				switch (elementName) {
+				case "menu":
+					menu = new Menu();
+					menu.setMenuID(reader.getAttributeValue(null, "id"));
+					menu.setMenuCurrency(reader.getAttributeValue(null, "currency"));
+					break;
+				case "assortment":
+					assortmentOfMenu = new AssortmentOfMenu();
+					assortmentOfMenu.setAssortmentID(reader.getAttributeValue(null, "id"));
+					break;
+				case "dish":
+					dishOfAssortment = new DishOfAssortment();
+					dishOfAssortment.setDishID(reader.getAttributeValue(null, "id"));
+					break;
+				case "dish-specification":
+					specificationOfDish = new SpecificationOfDish();
+					break;
+				}
+				break;
+
+			case XMLStreamConstants.CHARACTERS:
+				String text = reader.getText().trim();
+				if (text.isEmpty()) {
+					break;
+				}
+				switch (elementName) {
+				case "menu-name":
+					menu.setMenuName(text);
+					break;
+				case "menu-annotation":
+					menu.setMenuAnnotation(text);
+					break;
+				case "assortment-name":
+					assortmentOfMenu.setAssortmentName(text);
+					break;
+				case "assortment-annotation":
+					assortmentOfMenu.setAssortmentAnnotation(text);
+					break;
+				case "dish-photo":
+					dishOfAssortment.setDishPhoto(text.toString());
+					break;
+				case "dish-name":
+					dishOfAssortment.setDishName(text);
+					break;
+				case "dish-annotation":
+					dishOfAssortment.setDishAnnotation(text);
+					break;
+				case "dish-extra-description":
+					dishOfAssortment.setDishExtraDescription(text);
+					break;
+				case "dish-description":
+					specificationOfDish.setDishDescription(text);
+					break;
+				case "dish-portion":
+					specificationOfDish.setDishPortion(text);
+					break;
+				case "dish-price":
+					specificationOfDish.setDishPrice(text);
+					break;
+				}
+				break;
+			case XMLStreamConstants.END_ELEMENT:
+				elementName = reader.getLocalName();
+				switch (elementName) {
+				case "dish-specification":
+					dishOfAssortment.getSpecificationOfDishes().add(specificationOfDish);
+					specificationOfDish = null;
+					break;
+				case "dish":
+					assortmentOfMenu.getDishes().add(dishOfAssortment);
+					dishOfAssortment = null;
+					break;
+				case "assortment":
+					menu.getAssortments().add(assortmentOfMenu);
+					assortmentOfMenu = null;
+					break;
+				case "menu":
+					menus.add(menu);
+					menu = null;
+					break;
+				}
+				break;
+			}
+		}
+		return menus;
+	}
+}

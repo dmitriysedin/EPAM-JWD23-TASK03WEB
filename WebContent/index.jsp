@@ -8,9 +8,10 @@
 <body>
 
 	<form action="ServletForParsers" method="post">
-		<input type="submit" name="parser" value="SAX"> 
-		<input type="submit" name="parser" value="STAX"> 
-		<input type="submit" name="parser" value="DOM">
+		<input type="text" name="fileName" value="enter file path"> 
+		<input type="submit" name="command" value="SAX"> 
+		<input type="submit" name="command" value="STAX"> 
+		<input type="submit" name="command" value="DOM">
 	</form>
 
 </body>
