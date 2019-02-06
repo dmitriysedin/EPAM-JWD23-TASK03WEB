@@ -28,7 +28,7 @@ public final class SaxXMLParser extends DefaultHandler implements XMLParser {
 		return instance;
 	}
 
-	List<Object> menuList = new ArrayList<>();
+	List<Object> menuList;
 	private Menu menu;
 	private AssortmentOfMenu assortmentOfMenu;
 	private DishOfAssortment dishOfAssortment;
@@ -36,8 +36,8 @@ public final class SaxXMLParser extends DefaultHandler implements XMLParser {
 	private StringBuilder text;
 
 	public List<Object> parse(String faileName) throws XMLParserException {
-
-		menuList.clear();
+	
+		menuList = new ArrayList<>();
 
 		try {
 			XMLReader reader = XMLReaderFactory.createXMLReader();

@@ -59,10 +59,6 @@
 		</c:forEach>
 	</table>
 	<form action="ServletForParsers" method="post">
-		<input type="hidden" name="fileName" value="${fileName}"> 
-		<input type="hidden" name="parser" value="${parser}"> 
-		<input type="hidden" name="lastrow" value="${lastrow}"> 
-		<input type="hidden" name="firstrow" value="${firstrow}">
 		<c:if test="${count > lastrow}">
 			<input type="submit" name="command" value="NEXT">
 		</c:if>

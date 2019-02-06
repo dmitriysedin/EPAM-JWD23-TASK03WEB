@@ -46,7 +46,7 @@ public class Controller extends HttpServlet {
 			page = command.execute(request);
 		} catch (CommandException e) {
 			page = JspPageName.ERROR_PAGE;
-			logger.warn("CommandException in Controller");
+			logger.warn("CommandException in Controller");		
 		} catch (Exception e) {
 			page = JspPageName.ERROR_PAGE;
 			logger.warn("Exception in Controller");
